@@ -1,4 +1,3 @@
-// Единый редактируемый каталог. Источник и дата указаны у каждой карточки.
 window.CONTENT = {
   "brand": "Тарифы от Кристины",
   "categories": [
@@ -1537,7 +1536,7 @@ window.CONTENT = {
     {
       "id": 35,
       "name": "Тариф Мтс Персона 120",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -1857,7 +1856,7 @@ window.CONTENT = {
     {
       "id": 42,
       "name": "Тариф Мтс Персона 135",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -1905,7 +1904,7 @@ window.CONTENT = {
     {
       "id": 43,
       "name": "Тариф Мтс Персона 165",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -1955,7 +1954,7 @@ window.CONTENT = {
     {
       "id": 44,
       "name": "Тариф Мтс Персона 180",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -2004,7 +2003,7 @@ window.CONTENT = {
     {
       "id": 45,
       "name": "Тариф Мтс Персона 195",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -2052,7 +2051,7 @@ window.CONTENT = {
     {
       "id": 46,
       "name": "Тариф Мтс Персона 255",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -2100,7 +2099,7 @@ window.CONTENT = {
     {
       "id": 47,
       "name": "Тариф Мтс Персона 285",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -2148,7 +2147,7 @@ window.CONTENT = {
     {
       "id": 48,
       "name": "Тариф Мтс Персона 315",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -2196,7 +2195,7 @@ window.CONTENT = {
     {
       "id": 49,
       "name": "Тариф Мтс Персона 420",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -2244,7 +2243,7 @@ window.CONTENT = {
     {
       "id": 50,
       "name": "Тариф Мтс Персона 480",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -2292,7 +2291,7 @@ window.CONTENT = {
     {
       "id": 51,
       "name": "Тариф Мтс УБ 120",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Новая SIM-карта",
         "На свой номер"
@@ -2341,7 +2340,7 @@ window.CONTENT = {
     {
       "id": 52,
       "name": "Тариф Мтс УБ Москва",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "На свой номер"
       ],
@@ -2937,7 +2936,7 @@ window.CONTENT = {
     {
       "id": 65,
       "name": "Тариф Мтс БДС",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Новая SIM-карта",
         "На свой номер"
@@ -2982,7 +2981,7 @@ window.CONTENT = {
     {
       "id": 66,
       "name": "Тариф Мтс Диллер 2.0",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Новая SIM-карта",
         "На свой номер"
@@ -3031,7 +3030,7 @@ window.CONTENT = {
     {
       "id": 67,
       "name": "Тариф Мтс УБ 218",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Новая SIM-карта",
         "На свой номер"
@@ -3080,7 +3079,7 @@ window.CONTENT = {
     {
       "id": 68,
       "name": "Тариф Мтс Ultra",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Новая SIM-карта",
         "На свой номер"
@@ -3971,7 +3970,7 @@ window.CONTENT = {
     {
       "id": 88,
       "name": "SIM-карта Мтс для Модема 400gb",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Интернет"
       ],
@@ -4009,7 +4008,7 @@ window.CONTENT = {
     {
       "id": 89,
       "name": "SIM-карта Мтс для Модема 300",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Интернет"
       ],
@@ -4576,7 +4575,7 @@ window.CONTENT = {
     {
       "id": 104,
       "name": "SIM-карта Мтс для Умных устройств",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Интернет"
       ],
@@ -4740,7 +4739,7 @@ window.CONTENT = {
     {
       "id": 111,
       "name": "SIM-карта Мтс для Модема БИ",
-      "operator": "Уточняется",
+      "operator": "МТС",
       "categories": [
         "Интернет"
       ],
