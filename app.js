@@ -1,4 +1,4 @@
-const $=s=>document.querySelector(s),C=window.CONTENT,chosen=new Set();let category='Все',limit=18;let operatorChosen=false;
+const $=s=>document.querySelector(s),C=window.CONTENT,chosen=new Set();let category='Все',limit=18;let operatorChosen=true;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=n=>n===null?'Уточняется':Number(n).toLocaleString('ru-RU')+' ₽';
 const fee=t=>t.feeLabel;
