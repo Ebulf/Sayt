@@ -4,3 +4,6 @@ __pycache__/
 *.pyc
 .open-design/
 .impeccable/
+*.artifact.json
+*.comments.json
+Open Design/
