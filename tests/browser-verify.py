@@ -36,6 +36,21 @@ window.addEventListener('load', async () => {
    for(const glyph of fd.querySelectorAll('.device-glyph'))assert(fw.getComputedStyle(glyph).backgroundColor==='rgb(255, 255, 255)',op+' visible device icon '+width);
    assert(fd.documentElement.scrollWidth<=width+1,op+' no horizontal overflow '+width);
   }
+  fw.DESIGN_QA.openDetails(fw.CONTENT.tariffs[0].id);
+  const form=fd.querySelector('#tariff-request'),dialog=fd.querySelector('dialog');
+  assert(form&&!form.checkValidity(),'request requires contacts and consent '+width);
+  for(const control of form.querySelectorAll('.request-fields input,.request-fields select,.request-fields textarea')){
+   if(control.closest('[hidden]'))continue;
+   const r=control.getBoundingClientRect(),bounds=dialog.getBoundingClientRect();
+   assert(r.left>=bounds.left&&r.right<=bounds.right,'request field fits dialog '+width+' '+control.name);
+   assert(parseFloat(fw.getComputedStyle(control).fontSize)>=16,'readable request input '+width+' '+control.name);
+   assert(control.labels.length>0,'request input label '+control.name);
+  }
+  assert(form.querySelector('.request-trap').getBoundingClientRect().right<0,'spam field invisible '+width);
+  form.elements.name.value='Тестовая заявка';form.elements.phone.value='+70000000000';form.elements.region.value='Тестовый регион';form.elements.consent.checked=true;
+  assert(form.checkValidity(),'request accepts valid contact details '+width);
+  fd.querySelector('[data-apply]').click();assert(fd.activeElement.id==='request-name','request action focuses name '+width);
+  assert(fd.documentElement.scrollWidth<=width+1,'request no page overflow '+width);
   frame.remove();
  }
  for(const scenario of ['phone','tablet','router','number']){q.reset();d.querySelector('[data-quick-scenario="'+scenario+'"]').click();assert(d.querySelector('[data-wop]'),'quick '+scenario+' opens operator step');assert(d.activeElement.dataset.quickScenario===scenario,'quick '+scenario+' focus stays visible');const featuredId=Number(d.querySelector('.hero-sim').dataset.detail);assert(q.getVisibleIds().includes(featuredId),'hero offer matches '+scenario);if(['router','tablet'].includes(scenario))assert(CONTENT.tariffs.find(t=>t.id===featuredId).deviceTags.includes(scenario==='router'?'Модем / роутер':'Планшет'),'hero confirmed device '+scenario);assert(d.querySelector('[data-quick-scenario="'+scenario+'"]').getAttribute('aria-pressed')==='true','quick '+scenario+' selected');}

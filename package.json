@@ -7,7 +7,8 @@
     "start": "python -m http.server 8765 --bind 127.0.0.1",
     "test": "node tests/verify.cjs",
     "test:browser": "python tests/browser-verify.py",
-    "test:reduced": "python tests/browser-verify.py --reduced"
+    "test:reduced": "python tests/browser-verify.py --reduced",
+    "test:requests": "node scripts/build-request-backend.cjs && node tests/requests.cjs"
   },
   "devDependencies": {
     "jsdom": "31.0.1"
