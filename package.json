@@ -1,0 +1,15 @@
+{
+  "name": "tarify-ot-kristiny",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Каталог тарифов от Кристины",
+  "scripts": {
+    "start": "python -m http.server 8765 --bind 127.0.0.1",
+    "test": "node tests/verify.cjs",
+    "test:browser": "python tests/browser-verify.py",
+    "test:reduced": "python tests/browser-verify.py --reduced"
+  },
+  "devDependencies": {
+    "jsdom": "31.0.1"
+  }
+}
