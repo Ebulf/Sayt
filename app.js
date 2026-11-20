@@ -17,6 +17,20 @@ const deviceOptions=[['Смартфон','devicePhone','Телефон'],['Пл�
 function devices(t){const entries=deviceOptions.filter(([tag])=>(t.deviceTags||[]).includes(tag));return entries.length?`<div class="device-strip" style="--device-count:${entries.length}" aria-label="Подтверждённые устройства">${entries.map(([,key,label])=>`<span class="device"><span class="device-glyph">${icon(key)}</span><span>${label}</span></span>`).join('')}</div>`:'<div class="device-unknown">Устройства уточняются</div>';}
 function card(t){const colors=brandStyles[t.operator]||['#44344f','#6d5580','#fff'];return `<article class="tariff product-card" data-tariff-id="${t.id}" style="--op-main:${colors[0]};--op-secondary:${colors[1]};--op-text:${colors[2]}"><button class="product-art" data-detail="${t.id}" aria-label="Открыть условия: ${esc(t.name)}"><span class="connection-tag">${esc(t.category||'Условия в описании')}</span><span class="sim-art"><span class="traffic-value">${esc(t.trafficLabel||t.trafficText||'Уточняется')}</span><span class="price-logo"><span class="art-fee ${String(t.feeLabel||'').length>12?'long-fee':''}">${esc(t.feeLabel||t.feeText||'Уточняется')}</span><span class="art-logo">${operatorMark(t.operator)}</span></span>${devices(t)}</span></button><div class="product-body"><h3>${esc(t.name)}</h3><p class="product-minutes">${esc(t.minutesLabel||t.minutesText||'Минуты уточняются')}</p><div class="product-bottom"><span class="setup-price">Подключение<strong>Уточняется отдельно</strong></span><button class="save" data-save="${t.id}" aria-label="${chosen.has(t.id)?'Убрать из выбора':'Сохранить тариф'} ${esc(t.name)}" aria-pressed="${chosen.has(t.id)}">${icon(chosen.has(t.id)?'check':'bag')}</button></div><button class="product-details" data-detail="${t.id}">Полное описание ${icon('arrow')}</button></div></article>`;}
 const reduced=()=>window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+let cardObserver;
+function revealCards(){
+ cardObserver?.disconnect();
+ if(reduced()||!window.IntersectionObserver)return;
+ cardObserver=new IntersectionObserver(entries=>{
+  let order=0;
+  for(const entry of entries){if(!entry.isIntersecting||!entry.target.isConnected)continue;
+   cardObserver.unobserve(entry.target);
+   entry.target.animate?.([{opacity:.45,transform:'translateY(16px)'},{opacity:1,transform:'none'}],{duration:460,delay:Math.min(order++,3)*55,fill:'backwards',easing:'cubic-bezier(.16,1,.3,1)'});
+  }
+ },{threshold:.08});
+ document.querySelectorAll('.product-card').forEach(card=>cardObserver.observe(card));
+}
+window.matchMedia?.('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{if(event.matches){cardObserver?.disconnect();document.getAnimations().forEach(animation=>animation.cancel());}});
 function animatePane(el){if(!el?.animate||reduced())return;el.getAnimations?.().forEach(animation=>animation.cancel());el.animate([{opacity:.92},{opacity:1}],{duration:180,easing:'ease-out'});}
 function matches(){const q=state.query.trim().toLocaleLowerCase('ru');let rows=all.filter(t=>{
 if(state.operator&&t.operator!==state.operator)return false;
@@ -40,7 +54,7 @@ function renderOperators(){
 }
 function render(){renderOperators();const rows=matches();const scen={all:'Все сценарии',phone:'Для телефона',number:'Со своим номером',router:'Для роутера',tablet:'Для планшета'};$('results').textContent=`Найдено ${rows.length} из ${all.length} · ${scen[state.scenario]}`;
 $('cards').innerHTML=rows.length?rows.slice(0,state.limit).map(card).join(''):`<div class="empty"><h3>По этим условиям тарифов нет</h3><p>Попробуйте другого оператора, увеличьте бюджет или сбросьте подбор. Неизвестная совместимость не считается подтверждённой.</p><button class="primary" data-reset>Сбросить подбор</button></div>`;
-$('more').hidden=rows.length<=state.limit;renderSummary(rows);renderHero(rows);}
+$('more').hidden=rows.length<=state.limit;renderSummary(rows);renderHero(rows);revealCards();}
 function renderHero(rows){
  const featured=rows.find(t=>t.fee>0&&t.gb!=null&&t.min!=null)||rows[0];
  const container=$('hero-display');
@@ -116,7 +130,7 @@ document.querySelectorAll('.head-actions').forEach(group=>{group.querySelectorAl
 document.querySelectorAll('.footer .socials').forEach(group=>group.innerHTML=socialButtons(true));
 $('mobile-menu').insertAdjacentHTML('beforeend','<div class="mobile-socials">'+socialButtons(true)+'</div>');
 $('modal').setAttribute('aria-labelledby','modaltitle');
-$('hero-operators').innerHTML=ops.map(op=>`<span>${operatorMark(op)}</span>`).join('');
+$('hero-operators').innerHTML=ops.map(op=>`<span>${operatorMark(op)}${plainOperator(op)?'':`<span class="operator-name">${esc(op)}</span>`}</span>`).join('');
 render();renderWizard();
 
 window.DESIGN_QA={selectOperator(name){state.operator=name;state.limit=64;render();renderWizard();},search(query){state.query=query;state.limit=64;$('search').value=query;render();},reset,openDetails:detail,openCart:basket,add,cartCount(){return chosen.size;},getVisibleIds(){return Array.from(document.querySelectorAll('[data-tariff-id]'),el=>Number(el.dataset.tariffId));}};
