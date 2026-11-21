@@ -15,7 +15,7 @@ window.addEventListener('load', async () => {
  const d=document, q=window.DESIGN_QA;
  try {
  await document.fonts.ready;
- assert(document.fonts.check('400 16px Onest')&&document.fonts.check('700 64px "Golos Text"'),'actual local typefaces loaded');
+ assert(document.fonts.check('400 16px Onest')&&document.fonts.check('600 64px Onest'),'actual local typefaces loaded');
  for(const scenario of ['phone','tablet','router','number']) {
   q.reset();d.querySelector(`[data-scenario="${scenario}"]`).click();
   assert(d.activeElement.dataset.scenario===scenario,scenario+' keyboard focus retained');
@@ -25,7 +25,7 @@ window.addEventListener('load', async () => {
  }
  q.reset();
  for(const width of [320,390,768,1024,1440]) {
-  const frame=d.createElement('iframe');frame.style.cssText=`width:${width}px;height:900px;border:0`;frame.src='index.html';
+  const frame=d.createElement('iframe');frame.style.cssText=`width:${width}px;height:900px;border:0`;frame.src='reports/browser-fixture.html';
   const ready=new Promise(resolve=>frame.onload=resolve);d.body.append(frame);await ready;await frame.contentDocument.fonts.ready;
   const fw=frame.contentWindow, fd=frame.contentDocument;
   for(const op of new Set(CONTENT.tariffs.map(t=>t.operator))) {
@@ -77,7 +77,9 @@ window.addEventListener('load', async () => {
 '''
 (root/'reports').mkdir(exist_ok=True)
 entry = root / 'reports/browser-review.html'
-entry.write_text((root/'index.html').read_text(encoding='utf-8').replace('<head>','<head><base href="../">').replace('</body>',test+'</body>'),encoding='utf-8')
+fixture=(root/'index.html').read_text(encoding='utf-8').replace('<head>','<head><base href="../">').replace('<script src="catalog.js', '<script>window.fetch=async()=>({ok:true,json:async()=>({ok:true,tariffs:window.CONTENT.tariffs})});</script><script src="catalog.js')
+(root/'reports/browser-fixture.html').write_text(fixture,encoding='utf-8')
+entry.write_text(fixture.replace('</body>',test+'</body>'),encoding='utf-8')
 profile = tempfile.mkdtemp(prefix='tarify-browser-')
 run = subprocess.run([
  'C:/Program Files/Google/Chrome/Application/chrome.exe',

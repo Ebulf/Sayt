@@ -4,7 +4,7 @@ const projectRoot=path.resolve(__dirname,'..');
 const normalize=s=>String(s).replace(/\s+/g,' ').trim();
 (async()=>{
  const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
- const dom=await JSDOM.fromFile(path.join(projectRoot,'index.html'),{runScripts:'dangerously',resources:'usable',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){w.matchMedia=()=>({matches:false,addEventListener(){},removeEventListener(){}});w.HTMLDialogElement.prototype.showModal=function(){this.open=true};w.HTMLDialogElement.prototype.close=function(){this.open=false};w.HTMLElement.prototype.scrollIntoView=()=>{};w.HTMLElement.prototype.animate=()=>({finished:Promise.resolve(),cancel(){}});}});
+ const dom=await JSDOM.fromFile(path.join(projectRoot,'index.html'),{runScripts:'dangerously',resources:'usable',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){w.__disposeTestWindow=w.close.bind(w);w.AbortSignal=AbortSignal;w.fetch=async()=>({ok:true,json:async()=>({ok:true,tariffs:w.CONTENT.tariffs})});w.matchMedia=()=>({matches:false,addEventListener(){},removeEventListener(){}});w.HTMLDialogElement.prototype.showModal=function(){this.open=true};w.HTMLDialogElement.prototype.close=function(){this.open=false};w.HTMLElement.prototype.scrollIntoView=()=>{};w.HTMLElement.prototype.animate=()=>({finished:Promise.resolve(),cancel(){}});}});
  await new Promise(resolve=>dom.window.addEventListener('load',resolve,{once:true}));
  try{
  const w=dom.window,d=w.document,q=w.DESIGN_QA,tariffs=w.CONTENT.tariffs;
@@ -18,5 +18,5 @@ const normalize=s=>String(s).replace(/\s+/g,' ').trim();
  for(const group of d.querySelectorAll('.head-actions,.footer .socials,.mobile-socials')){assert.equal(group.querySelectorAll('[data-contact]').length,4);for(const button of group.querySelectorAll('[data-contact]'))assert.equal(button.textContent.trim(),'','Social labels must be hidden');assert(group.querySelector('[data-contact="MAX"] img[src="assets/max.svg"]'))}
  const titleIds=[...d.querySelectorAll('[id]')].map(el=>el.id);assert.equal(new Set(titleIds).size,titleIds.length);assert.deepEqual(errors,[]);
  const result={status:'PASS',offers:64,operators:7,details:64,checks:['all facts and notes','regional tables','source links','correct device icons','all operators','empty and safe search','price range','tablet selection','wizard forward/back','actual card click','basket removal','four official social marks','unique HTML ids']};fs.mkdirSync(path.join(projectRoot,'reports'),{recursive:true});fs.writeFileSync(path.join(projectRoot,'reports/verification.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
- }finally{dom.window.close()}
+ }finally{dom.window.__disposeTestWindow()}
 })().catch(e=>{console.error(e);process.exitCode=1});
